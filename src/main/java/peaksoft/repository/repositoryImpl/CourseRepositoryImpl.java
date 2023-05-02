@@ -19,10 +19,12 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public Course findCourseById(Long id) {
         entityManager.getTransaction().begin();
-        Course course = entityManager.createQuery("select c from Course c where id=:id", Course.class).setParameter("id", id).getSingleResult();
+        Course result = entityManager.createQuery("select c from  Course c where c.id=:id", Course.class)
+                .setParameter("id", id)
+                .getSingleResult();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return course;
+        return result;
     }
 
     @Override
@@ -31,5 +33,6 @@ public class CourseRepositoryImpl implements CourseRepository {
        entityManager.remove(entityManager.find(Course.class,id));
         entityManager.getTransaction().commit();
         entityManager.close();
+        System.out.println("deleted");
     }
 }
